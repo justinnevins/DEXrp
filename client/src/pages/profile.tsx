@@ -974,8 +974,8 @@ export default function Profile() {
           DEXrp is free and open source — no paywalls, unlimited wallets, all data stored locally. If you find it useful, consider becoming a patron.
         </p>
 
-        {/* DEXrp Pro card */}
-        <div className={`rounded-xl border-2 p-4 mb-3 ${proSubscribed ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900/10' : 'border-border bg-muted/20'}`}>
+        {/* DEXrp Pro card — hidden until mobile app store setup is complete */}
+        {false && <div className={`rounded-xl border-2 p-4 mb-3 ${proSubscribed ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900/10' : 'border-border bg-muted/20'}`}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <Star className={`w-5 h-5 ${proSubscribed ? 'text-yellow-500 fill-yellow-400' : 'text-muted-foreground'}`} />
@@ -1028,7 +1028,7 @@ export default function Profile() {
               <span>Available on the iOS &amp; Android app — download DEXrp on your mobile device to subscribe.</span>
             </div>
           )}
-        </div>
+        </div>}
 
         {/* XRP donation */}
         <div className="p-3 bg-muted/30 rounded-lg border border-border">
