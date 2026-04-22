@@ -414,8 +414,8 @@ export default function Profile() {
       
       // Show confirmation toast
       toast({
-        title: "All Accounts Removed",
-        description: "All account data cleared, reloading application...",
+        title: "Accounts Cleared",
+        description: "Local wallet data removed. Reloading...",
       });
       
       setRemoveAllConfirmOpen(false);
@@ -1471,7 +1471,9 @@ export default function Profile() {
           <AlertDialogHeader>
             <AlertDialogTitle>Clear Local Accounts</AlertDialogTitle>
             <AlertDialogDescription>
-              This will remove all accounts and data stored on this device. If you have cloud sync enabled, your data remains safe in the cloud and can be restored after signing in. This action cannot be undone.
+              {syncOptIn && isUnlocked
+                ? "This will remove all XRPL accounts and wallet data from this device and from the cloud sync. Your account will remain signed in but all wallet data will be permanently deleted. This cannot be undone."
+                : "This will remove all XRPL accounts and wallet data from this device. Your account will remain signed in. This cannot be undone."}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
