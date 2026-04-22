@@ -1386,7 +1386,7 @@ export default function Profile() {
           data-testid="remove-all-accounts"
         >
           <LogOut className="w-4 h-4 mr-2" />
-          Remove All Accounts
+          Clear Local Accounts
         </Button>
       </div>
       <HardwareWalletConnectModal
@@ -1465,13 +1465,13 @@ export default function Profile() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Remove All Accounts Confirmation Dialog */}
+      {/* Clear Local Accounts Confirmation Dialog */}
       <AlertDialog open={removeAllConfirmOpen} onOpenChange={setRemoveAllConfirmOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove All Accounts</AlertDialogTitle>
+            <AlertDialogTitle>Clear Local Accounts</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to remove all accounts and clear all data? This action cannot be undone and will reset the application.
+              This will remove all accounts and data stored on this device. If you have cloud sync enabled, your data remains safe in the cloud and can be restored after signing in. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -1481,7 +1481,7 @@ export default function Profile() {
               className="bg-red-600 hover:bg-red-700"
               data-testid="confirm-remove-all-accounts"
             >
-              Remove All
+              Clear Local Data
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
