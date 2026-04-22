@@ -58,7 +58,6 @@ import { HardwareWalletConnectModal } from '@/components/modals/hardware-wallet-
 import { FullscreenQRViewer } from '@/components/fullscreen-qr-viewer';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Switch } from '@/components/ui/switch';
-import { computeWalletOverage } from '@/hooks/useSubscription';
 import { Heart } from 'lucide-react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { initializeRevenueCat, getCustomerInfo, getOfferings, purchasePackage, restorePurchases, isPro, isNative } from '@/lib/revenuecat';
@@ -1171,15 +1170,23 @@ export default function Profile() {
         ) : (
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Sign in to enable encrypted cloud sync and keep your wallets backed up across devices.
+              Create a free account to enable encrypted cloud sync and keep your wallets backed up across devices.
             </p>
-            <Button
-              onClick={() => window.location.href = '/login'}
-              variant="outline"
-              data-testid="button-sign-in"
-            >
-              Sign In / Create Account
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                onClick={() => window.location.href = '/login?mode=register'}
+                data-testid="button-create-account"
+              >
+                Create Account
+              </Button>
+              <Button
+                onClick={() => window.location.href = '/login'}
+                variant="outline"
+                data-testid="button-sign-in"
+              >
+                Sign In
+              </Button>
+            </div>
           </div>
         )}
       </div>
@@ -1584,46 +1591,6 @@ export default function Profile() {
                 </div>
               </div>
 
-              {(() => {
-                const overage = computeWalletOverage(
-                  importPreview.signingWalletCount,
-                  importPreview.watchOnlyWalletCount,
-                  'free',
-                  false
-                );
-                if (overage.isOverLimit) {
-                  return (
-                    <Alert variant="destructive" className="border-yellow-500/50 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400">
-                      <AlertTriangle className="h-4 w-4" />
-                      <AlertDescription>
-                        <p className="font-medium mb-1">Wallet limit warning</p>
-                        <p className="text-xs">
-                          This backup contains {importPreview.signingWalletCount > overage.allowedSigning && 
-                            `${importPreview.signingWalletCount} signing wallets (limit: ${overage.allowedSigning})`}
-                          {importPreview.signingWalletCount > overage.allowedSigning && 
-                           importPreview.watchOnlyWalletCount > overage.allowedWatchOnly && ' and '}
-                          {importPreview.watchOnlyWalletCount > overage.allowedWatchOnly && 
-                            `${importPreview.watchOnlyWalletCount} watch-only wallets (limit: ${overage.allowedWatchOnly})`}.
-                          Extra wallets will be imported but set to read-only mode.
-                        </p>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="mt-2 gap-1 border-yellow-500/50"
-                          onClick={() => {
-                            localStorage.setItem('dexrp_pending_checkout', 'monthly');
-                            window.location.href = isAuthenticated ? '/?upgrade=true' : '/login';
-                          }}
-                        >
-                          <Crown className="w-3 h-3" />
-                          Upgrade to Premium
-                        </Button>
-                      </AlertDescription>
-                    </Alert>
-                  );
-                }
-                return null;
-              })()}
 
               <div className="space-y-3">
                 <p className="text-sm font-medium">Choose restore mode:</p>
@@ -1773,40 +1740,6 @@ export default function Profile() {
                 </div>
               </div>
 
-              {(() => {
-                const overage = computeWalletOverage(
-                  importPreview.signingWalletCount,
-                  importPreview.watchOnlyWalletCount,
-                  'free',
-                  false
-                );
-                if (overage.isOverLimit) {
-                  return (
-                    <Alert variant="destructive" className="border-yellow-500/50 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400">
-                      <AlertTriangle className="h-4 w-4" />
-                      <AlertDescription>
-                        <p className="font-medium mb-1">Wallet limit warning</p>
-                        <p className="text-xs">
-                          This backup exceeds your plan limits. Extra wallets will be imported in read-only mode.
-                        </p>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="mt-2 gap-1 border-yellow-500/50"
-                          onClick={() => {
-                            localStorage.setItem('dexrp_pending_checkout', 'monthly');
-                            window.location.href = isAuthenticated ? '/?upgrade=true' : '/login';
-                          }}
-                        >
-                          <Crown className="w-3 h-3" />
-                          Upgrade to Premium
-                        </Button>
-                      </AlertDescription>
-                    </Alert>
-                  );
-                }
-                return null;
-              })()}
 
               <div className="space-y-3">
                 <p className="text-sm font-medium">Choose restore mode:</p>

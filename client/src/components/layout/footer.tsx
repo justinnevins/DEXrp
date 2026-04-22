@@ -4,7 +4,7 @@ import { xrplClient } from '@/lib/xrpl-client';
 import { useState, useEffect } from 'react';
 
 const KEYSTONE_AFFILIATE_URL = 'https://keyst.one/?rfsn=8924031.c9a3ff&utm_source=refersion&utm_medium=affiliate&utm_campaign=8924031.c9a3ff';
-const GITHUB_URL = 'https://github.com/justinnevins/dexrp-tools';
+const GITHUB_URL = 'https://github.com/justinnevins/DEXrp';
 
 export function Footer() {
   const { currentWallet } = useWallet();

@@ -22,7 +22,8 @@ export default function Login() {
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
   const [isLoadingTwitter, setIsLoadingTwitter] = useState(false);
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const initialMode = new URLSearchParams(window.location.search).get("mode") === "register" ? "register" : "login";
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
 
   if (authLoading) {
     return (
