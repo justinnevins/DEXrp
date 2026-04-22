@@ -1,6 +1,6 @@
 # DEXrp - XRPL DEX Trading App
 
-A secure, mobile-optimized XRP Ledger (XRPL) DEX trading app with Keystone 3 Pro hardware wallet integration using QR code-based air-gapped transaction signing. More air-gapped wallet support coming soon!
+A secure, mobile-optimized XRP Ledger (XRPL) DEX trading app with Keystone 3 Pro hardware wallet integration using QR code-based air-gapped transaction signing.
 
 **Web Domain**: [dexrp.me](https://dexrp.me)
 
