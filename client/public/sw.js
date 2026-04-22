@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dexrp-v1';
+const CACHE_NAME = 'dexrp-v2';
 const urlsToCache = [
   '/',
   '/index.html'
