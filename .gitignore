@@ -12,6 +12,11 @@ server/public
 capacitor.settings.gradle
 app/capacitor.build.gradle
 
+# Android signing — never commit keystores or passwords
+*.jks
+*.keystore
+android/keystore.properties
+
 # Environment variables
 .env
 .env.local
