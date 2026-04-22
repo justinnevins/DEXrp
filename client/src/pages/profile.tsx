@@ -1476,6 +1476,22 @@ export default function Profile() {
                 : "This will remove all XRPL accounts and wallet data from this device. Your account will remain signed in. This cannot be undone."}
             </AlertDialogDescription>
           </AlertDialogHeader>
+          <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-900/20 px-4 py-3 text-sm">
+            <span className="text-amber-600 dark:text-amber-400 mt-0.5">⚠</span>
+            <div className="flex-1">
+              <p className="text-amber-800 dark:text-amber-300 font-medium mb-1">Back up your data first</p>
+              <p className="text-amber-700 dark:text-amber-400 mb-2">Save a backup file before clearing so you can restore your accounts later.</p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleExportBackup}
+                disabled={isExporting}
+                className="border-amber-400 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40"
+              >
+                {isExporting ? 'Exporting…' : 'Export Backup'}
+              </Button>
+            </div>
+          </div>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction 
