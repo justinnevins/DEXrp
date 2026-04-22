@@ -1,0 +1,51 @@
+Sustainable Use License 1.0
+
+Copyright (c) 2025 Justin Nevins
+All rights reserved.
+
+SPDX-License-Identifier: sustainable-use-1.0
+
+Preamble
+This Sustainable Use License (the "License") aims to make the Source Code available to individuals and organizations for transparent use, non-commercial distribution, and modification while protecting the rights of the Copyright Holder to monetize commercial uses. It is a source-available license and is NOT an OSI-approved open source license.
+
+Definitions
+- "Copyright Holder" means the person or entity identified as the copyright owner in the top of this file.
+- "You" means any person or entity exercising rights granted by this License.
+- "Source Code" means the human-readable form of the software made available under this License.
+- "Distribute" means to make the Source Code or object code available to any third party by any means, including providing it as part of a product, service, or network-hosted offering.
+- "Commercial Use" means (a) offering the software (or substantial parts of it) for money, or as part of a commercial product or service (including SaaS and hosted services); (b) sublicensing, selling, renting, leasing, or otherwise providing the software to third parties for a fee; or (c) integrating the software into a product or service that is marketed or sold to third parties.
+- "Non-Commercial Use" means use, modification, or distribution for personal, academic, internal business, or other uses that are not Commercial Use as defined above.
+
+Grant of Rights
+Subject to the terms and conditions of this License, the Copyright Holder hereby grants You a worldwide, royalty-free, non-exclusive license to:
+1. Use, run, study, and modify the Source Code for Non-Commercial Use;
+2. Copy and Distribute verbatim or modified Source Code for Non-Commercial Use, provided such distribution is offered at no charge.
+
+Conditions and Restrictions
+1. Commercial Use Prohibited Without Separate License. You may not use, Distribute, modify, or otherwise exploit the Source Code for Commercial Use except pursuant to a separate written commercial license from the Copyright Holder.
+2. Notices. You must retain all copyright, patent, trademark, and attribution notices in the Source Code and in any copies or substantial portions of the Source Code. You may add to but may not remove or obscure existing notices.
+3. Contribution and Re-licensing. Contributions from third parties are permitted, but you may not relicense the whole project under a license that permits Commercial Use without written consent from all contributors or unless contributors explicitly grant the Copyright Holder the right to relicense.
+4. Trademarks. This License does not grant rights to use the Copyright Holder's trademarks, service marks, or trade names.
+5. Patent. The Copyright Holder grants You a non-exclusive, worldwide, royalty-free patent license to make, use, sell, offer to sell, and import the Contribution solely to the extent necessary to exercise the rights granted by this License. This patent license terminates automatically if You assert a patent claim (including a cross-claim or counterclaim) against the Copyright Holder alleging that the software or any portion of it infringes a patent.
+6. No Warranty of Commercial Availability. The Copyright Holder is not obligated to provide support, maintenance, bug fixes, or feature upgrades under this License.
+
+Termination
+Your rights under this License terminate automatically if You fail to comply with any of its terms and conditions. If your license terminates, you must cease all distribution and use of the Source Code for Commercial Use and, upon written request from the Copyright Holder, destroy all copies of the Source Code that are subject to Commercial Use. The Copyright Holder may, at their discretion, reinstate your rights if the violation is cured within thirty (30) days of written notice.
+
+Disclaimer of Warranty
+THE SOURCE CODE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOURCE CODE OR THE USE OR OTHER DEALINGS IN THE SOURCE CODE.
+
+Limitation of Liability
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING LOSS OF PROFITS), HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THIS LICENSE OR THE USE OF THE SOURCE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+Governing Law
+This License shall be governed by and construed in accordance with the laws of the jurisdiction of the Copyright Holder, without regard to conflict of law principles.
+
+Commercial Licensing
+To obtain a commercial license or discuss permitted commercial uses, contact: justin@dexrp.me
+The Copyright Holder may offer commercial licenses on different terms, including support, indemnity, or other commercial commitments.
+
+Interpretation
+If any provision of this License is found to be unenforceable under applicable law, that provision shall be interpreted to the maximum extent enforceable, and the remainder of the License shall remain in full force and effect.
+
+Last updated: 2025-12-14

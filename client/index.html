@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
+    <title>DEXrp Tools - Self-custodial XRPL Tools</title>
+    <meta name="description" content="DEXrp - Secure XRPL DEX trading with hardware wallet integration via Keystone 3 Pro" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2f5ff9" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="DEXrp" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico" />
+    
+    <script>
+      // Polyfill for libraries that expect Node.js globals (e.g., @keystonehq/animated-qr)
+      window.process = { env: { NODE_ENV: 'development' } };
+    </script>
+    <script type="module">
+      // Import Buffer polyfill from the buffer package
+      import { Buffer } from 'buffer';
+      window.Buffer = Buffer;
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

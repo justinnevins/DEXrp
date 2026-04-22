@@ -1,0 +1,6 @@
+/build/*
+!/build/.npmkeep
+
+# Capacitor Temp Files
+/app/capacitor.build.gradle
+/app/capacitor.settings.gradle

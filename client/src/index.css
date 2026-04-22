@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 11% 98%; /* #F7F9FB */
+  --foreground: 223 47% 11%; /* #1A1F36 */
+  --muted: 207 12% 96%; /* #F3F4F6 */
+  --muted-foreground: 215 25% 27%; /* #64748B */
+  --popover: 0 0% 100%;
+  --popover-foreground: 223 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 223 47% 11%;
+  --border: 220 13% 91%; /* #E2E8F0 */
+  --input: 220 13% 91%;
+  --primary: 226 94% 58%; /* #2f5ff9 — matches DEXrp logo */
+  --primary-foreground: 0 0% 98%;
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 223 47% 11%;
+  --accent: 220 14% 96%;
+  --accent-foreground: 223 47% 11%;
+  --destructive: 0 93% 67%; /* #FF5B5B */
+  --destructive-foreground: 0 0% 98%;
+  --ring: 223 47% 11%;
+  --radius: 0.75rem;
+  --xrpl-dark: 210 20% 16%; /* #23292F */
+  --xrpl-teal: 183 100% 26%; /* #00827D */
+  --xrpl-red: 0 93% 67%; /* #FF5B5B */
+}
+
+.dark {
+  --background: 210 20% 11%; /* #1a1d23 */
+  --foreground: 210 11% 91%; /* #e4e7ea */
+  --muted: 210 20% 16%; /* #252a32 */
+  --muted-foreground: 210 11% 71%; /* #9ca3af */
+  --popover: 210 20% 16%;
+  --popover-foreground: 210 11% 91%;
+  --card: 210 20% 16%; /* #252a32 */
+  --card-foreground: 210 11% 91%;
+  --border: 210 20% 26%;
+  --input: 210 20% 26%;
+  --primary: 226 94% 58%; /* #2f5ff9 — matches DEXrp logo */
+  --primary-foreground: 0 0% 98%;
+  --secondary: 210 20% 26%;
+  --secondary-foreground: 210 11% 91%;
+  --accent: 210 20% 26%;
+  --accent-foreground: 210 11% 91%;
+  --destructive: 0 93% 67%; /* #FF5B5B */
+  --destructive-foreground: 0 0% 98%;
+  --ring: 210 11% 71%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body, #root {
+    /* Prevent overscroll/bounce effect on mobile */
+    overscroll-behavior: none;
+    /* Prevent pull-to-refresh on mobile */
+    overflow: hidden;
+    /* Use dynamic viewport height to account for mobile browser UI */
+    height: 100dvh;
+    /* Fallback for older browsers */
+    height: 100svh;
+    /* Ensure full width for Capacitor/native apps */
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Additional fallback for browsers without dvh/svh support */
+  @supports not (height: 100dvh) {
+    html, body, #root {
+      height: 100vh;
+      height: -webkit-fill-available;
+    }
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+    /* Safe area padding handled by layout component */
+  }
+
+  .touch-target {
+    @apply min-h-[48px] min-w-[48px] transition-all duration-150 ease-in-out;
+  }
+
+  .touch-target:active {
+    @apply scale-95 opacity-80;
+  }
+
+  .xrpl-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)));
+  }
+}
+
+@layer utilities {
+  .font-inter {
+    font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+  }
+}
