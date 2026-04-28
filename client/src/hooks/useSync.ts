@@ -83,8 +83,8 @@ export function useSync() {
     setHasStoredSalt(true);
   }, []);
 
-  const unlockWithPassphrase = useCallback(async (passphrase: string): Promise<boolean> => {
-    const success = await syncManager.unlockWithPassphrase(passphrase);
+  const unlockWithPassphrase = useCallback(async (passphrase: string, rememberMe: boolean = false): Promise<boolean> => {
+    const success = await syncManager.unlockWithPassphrase(passphrase, rememberMe);
     setIsUnlocked(success);
     return success;
   }, []);

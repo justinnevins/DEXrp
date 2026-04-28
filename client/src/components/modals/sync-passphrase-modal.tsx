@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -12,13 +13,14 @@ import {
 } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Lock, Eye, EyeOff, AlertTriangle, Cloud, Shield, RefreshCw } from 'lucide-react';
+import { syncManager } from '@/lib/sync-manager';
 
 interface SyncPassphraseModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   mode: 'setup' | 'unlock' | 'change';
   onSetup: (passphrase: string) => Promise<void>;
-  onUnlock: (passphrase: string) => Promise<boolean>;
+  onUnlock: (passphrase: string, rememberMe: boolean) => Promise<boolean>;
   onChangePassphrase?: (currentPassphrase: string, newPassphrase: string) => Promise<{ success: boolean; error?: string }>;
   onForgotPassphrase?: () => void;
   onSuccess?: () => void;
@@ -42,6 +44,7 @@ export function SyncPassphraseModal({
   const [showPassphrase, setShowPassphrase] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [rememberMe, setRememberMe] = useState(() => syncManager.isRemembered());
 
   useEffect(() => {
     if (!open) {
@@ -50,6 +53,9 @@ export function SyncPassphraseModal({
       setConfirmPassphrase('');
       setError(null);
       setShowPassphrase(false);
+    } else {
+      // Reflect current remembered state each time modal opens
+      setRememberMe(syncManager.isRemembered());
     }
   }, [open]);
 
@@ -83,7 +89,7 @@ export function SyncPassphraseModal({
     } else if (mode === 'unlock') {
       setIsLoading(true);
       try {
-        const success = await onUnlock(passphrase);
+        const success = await onUnlock(passphrase, rememberMe);
         if (success) {
           setPassphrase('');
           // Call onSuccess before closing modal to preserve pending flags
@@ -296,6 +302,21 @@ export function SyncPassphraseModal({
               )}
             </div>
           </div>
+
+          {mode === 'unlock' && (
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="remember-me"
+                checked={rememberMe}
+                onCheckedChange={(val) => setRememberMe(val === true)}
+                disabled={isLoading}
+                data-testid="checkbox-remember-passphrase"
+              />
+              <Label htmlFor="remember-me" className="text-sm font-normal cursor-pointer select-none">
+                Remember on this device
+              </Label>
+            </div>
+          )}
 
           {(mode === 'setup' || mode === 'change') && (
             <div className="space-y-2">

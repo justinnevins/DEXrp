@@ -19,6 +19,7 @@ const STORAGE_KEYS_TO_SYNC = [
 const SYNC_KEYS = {
   PASSPHRASE_SALT: 'xrpl_sync_salt',
   DERIVED_KEY: 'xrpl_sync_key',
+  REMEMBERED_KEY: 'xrpl_sync_remembered_key',
   LOCAL_CHECKSUM: 'xrpl_sync_checksum',
   LAST_SYNC: 'xrpl_sync_last',
   DATA_VERSION: 'xrpl_sync_data_version',
@@ -114,21 +115,39 @@ class SyncManager {
     );
   }
 
-  private async persistKey(): Promise<void> {
+  private async persistKey(rememberMe?: boolean): Promise<void> {
     if (this.derivedKey) {
       const exportedKey = await this.exportKey(this.derivedKey);
       sessionStorage.setItem(SYNC_KEYS.DERIVED_KEY, exportedKey);
+      if (rememberMe) {
+        localStorage.setItem(SYNC_KEYS.REMEMBERED_KEY, exportedKey);
+      }
     }
+  }
+
+  clearRememberedKey(): void {
+    localStorage.removeItem(SYNC_KEYS.REMEMBERED_KEY);
+  }
+
+  isRemembered(): boolean {
+    return localStorage.getItem(SYNC_KEYS.REMEMBERED_KEY) !== null;
   }
 
   async restoreSession(): Promise<boolean> {
     try {
-      const storedKey = sessionStorage.getItem(SYNC_KEYS.DERIVED_KEY);
       const storedSalt = localStorage.getItem(SYNC_KEYS.PASSPHRASE_SALT);
-      
-      if (storedKey && storedSalt) {
+      if (!storedSalt) return false;
+
+      // Prefer in-session key, fall back to remembered key
+      const storedKey =
+        sessionStorage.getItem(SYNC_KEYS.DERIVED_KEY) ||
+        localStorage.getItem(SYNC_KEYS.REMEMBERED_KEY);
+
+      if (storedKey) {
         this.derivedKey = await this.importKey(storedKey);
         this.salt = this.base64ToArrayBuffer(storedSalt);
+        // Always keep sessionStorage warm too
+        sessionStorage.setItem(SYNC_KEYS.DERIVED_KEY, storedKey);
         return true;
       }
       return false;
@@ -286,7 +305,7 @@ class SyncManager {
     await this.persistKey();
   }
 
-  async unlockWithPassphrase(passphrase: string): Promise<boolean> {
+  async unlockWithPassphrase(passphrase: string, rememberMe: boolean = false): Promise<boolean> {
     // Always fetch the latest salt from the server to ensure we use the correct encryption key
     const status = await this.fetchSyncStatus();
     let saltToUse: string | null = null;
@@ -295,10 +314,11 @@ class SyncManager {
       saltToUse = status.salt;
       const localSalt = localStorage.getItem(SYNC_KEYS.PASSPHRASE_SALT);
       
-      // If server salt differs from local, update local and clear any cached key
+      // If server salt differs from local, update local and clear any cached keys
       if (localSalt !== saltToUse) {
         localStorage.setItem(SYNC_KEYS.PASSPHRASE_SALT, saltToUse);
         sessionStorage.removeItem(SYNC_KEYS.DERIVED_KEY);
+        localStorage.removeItem(SYNC_KEYS.REMEMBERED_KEY);
         this.derivedKey = null;
       }
     } else {
@@ -338,7 +358,7 @@ class SyncManager {
     
     // Passphrase verified successfully
     this.derivedKey = testKey;
-    await this.persistKey();
+    await this.persistKey(rememberMe);
     return true;
   }
 
@@ -403,10 +423,11 @@ class SyncManager {
         throw new Error(data.message || 'Failed to push re-encrypted data');
       }
 
-      // Update local state
+      // Update local state — clear any remembered key since the passphrase changed
       this.salt = newSalt;
       this.derivedKey = newKey;
       localStorage.setItem(SYNC_KEYS.PASSPHRASE_SALT, saltBase64);
+      localStorage.removeItem(SYNC_KEYS.REMEMBERED_KEY);
       await this.persistKey();
 
       return { success: true };
