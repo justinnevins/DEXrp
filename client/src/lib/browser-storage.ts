@@ -366,6 +366,7 @@ class BrowserStorage {
     Object.values(this.STORAGE_KEYS).forEach(key => {
       localStorage.removeItem(key);
     });
+    localStorage.removeItem(this.DELETED_ON_XRPL_KEY);
   }
 
   // Sync data from server (for initial load or updates)

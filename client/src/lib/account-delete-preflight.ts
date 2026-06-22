@@ -12,7 +12,6 @@ export interface AccountDeletePreflightResult {
   sequenceOk: boolean;
   objectCountOk: boolean;
   objectCount: number;
-  openOfferCount: number;
   blockers: DeletionBlocker[];
   currentLedgerIndex: number;
   accountSequence: number;
@@ -48,6 +47,14 @@ const BLOCKER_TYPE_LABELS: Record<string, { label: string; description: string }
   PermissionedDomain: {
     label: 'Permissioned Domain',
     description: 'Delete your permissioned domain first.',
+  },
+  Offer: {
+    label: 'Open DEX Offers',
+    description: 'You have open DEX offers. Cancel them all from the DEX page before deleting.',
+  },
+  SignerList: {
+    label: 'Signer List (Multi-sig)',
+    description: 'Your account has a signer list. Delete it first using an AccountSet transaction.',
   },
 };
 
@@ -87,7 +94,6 @@ export async function checkAccountDeleteEligibility(
   const objectCountOk = objectCount <= 1000;
 
   const blockerMap: Record<string, number> = {};
-  let openOfferCount = 0;
 
   for (const obj of objects) {
     const lt: string = obj.LedgerEntryType ?? '';
@@ -103,11 +109,11 @@ export async function checkAccountDeleteEligibility(
       lt === 'PayChannel' ||
       lt === 'NFTokenPage' ||
       lt === 'Bridge' ||
-      lt === 'PermissionedDomain'
+      lt === 'PermissionedDomain' ||
+      lt === 'Offer' ||
+      lt === 'SignerList'
     ) {
       blockerMap[lt] = (blockerMap[lt] ?? 0) + 1;
-    } else if (lt === 'Offer') {
-      openOfferCount += 1;
     }
   }
 
@@ -129,7 +135,6 @@ export async function checkAccountDeleteEligibility(
     sequenceOk,
     objectCountOk,
     objectCount,
-    openOfferCount,
     blockers,
     currentLedgerIndex: currentLedger,
     accountSequence,

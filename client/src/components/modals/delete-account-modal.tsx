@@ -360,11 +360,6 @@ export function DeleteAccountModal({ isOpen, onClose }: DeleteAccountModalProps)
               <p className="text-xs text-green-700 dark:text-green-400">
                 {preflight?.objectCount ?? 0} owned objects — no blockers found
               </p>
-              {(preflight?.openOfferCount ?? 0) > 0 && (
-                <p className="text-xs text-green-700 dark:text-green-400 mt-1">
-                  {preflight!.openOfferCount} open DEX offer{preflight!.openOfferCount !== 1 ? 's' : ''} will be automatically cancelled by the ledger upon deletion.
-                </p>
-              )}
             </div>
 
             <div className="space-y-3">
