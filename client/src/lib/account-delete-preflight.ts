@@ -12,6 +12,7 @@ export interface AccountDeletePreflightResult {
   sequenceOk: boolean;
   objectCountOk: boolean;
   objectCount: number;
+  openOfferCount: number;
   blockers: DeletionBlocker[];
   currentLedgerIndex: number;
   accountSequence: number;
@@ -86,6 +87,8 @@ export async function checkAccountDeleteEligibility(
   const objectCountOk = objectCount <= 1000;
 
   const blockerMap: Record<string, number> = {};
+  let openOfferCount = 0;
+
   for (const obj of objects) {
     const lt: string = obj.LedgerEntryType ?? '';
 
@@ -103,6 +106,8 @@ export async function checkAccountDeleteEligibility(
       lt === 'PermissionedDomain'
     ) {
       blockerMap[lt] = (blockerMap[lt] ?? 0) + 1;
+    } else if (lt === 'Offer') {
+      openOfferCount += 1;
     }
   }
 
@@ -124,6 +129,7 @@ export async function checkAccountDeleteEligibility(
     sequenceOk,
     objectCountOk,
     objectCount,
+    openOfferCount,
     blockers,
     currentLedgerIndex: currentLedger,
     accountSequence,

@@ -219,8 +219,12 @@ export function DeleteAccountModal({ isOpen, onClose }: DeleteAccountModalProps)
 
       const submitResult = await xrplClient.submitTransaction(txBlob, network, true);
 
-      if (!submitResult.success) {
-        throw new Error(submitResult.engineResultMessage || submitResult.engineResult);
+      if (submitResult.engineResult !== 'tesSUCCESS') {
+        throw new Error(
+          submitResult.engineResultMessage
+            ? `${submitResult.engineResult}: ${submitResult.engineResultMessage}`
+            : submitResult.engineResult || 'Transaction did not succeed'
+        );
       }
 
       browserStorage.markWalletDeletedOnXrpl(currentWallet.id);
@@ -272,8 +276,8 @@ export function DeleteAccountModal({ isOpen, onClose }: DeleteAccountModalProps)
             </div>
 
             <div className="p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-xs text-amber-800 dark:text-amber-300 space-y-1">
-              <p className="font-semibold">⚠ The {ACCOUNT_DELETE_FEE_XRP} XRP fee is burned even if the deletion fails.</p>
-              <p>The app submits with <code>fail_hard</code> to prevent paying the fee when the deletion would fail — but please check your account meets all requirements first.</p>
+              <p className="font-semibold">⚠ The {ACCOUNT_DELETE_FEE_XRP} XRP fee can be burned even if deletion fails.</p>
+              <p>The app submits with <code>fail_hard</code> to greatly reduce the chance of paying the fee if the deletion cannot complete — but this is not a guarantee. Ensure your account meets all requirements before proceeding.</p>
             </div>
 
             <div className="space-y-1.5 text-sm text-muted-foreground">
@@ -356,6 +360,11 @@ export function DeleteAccountModal({ isOpen, onClose }: DeleteAccountModalProps)
               <p className="text-xs text-green-700 dark:text-green-400">
                 {preflight?.objectCount ?? 0} owned objects — no blockers found
               </p>
+              {(preflight?.openOfferCount ?? 0) > 0 && (
+                <p className="text-xs text-green-700 dark:text-green-400 mt-1">
+                  {preflight!.openOfferCount} open DEX offer{preflight!.openOfferCount !== 1 ? 's' : ''} will be automatically cancelled by the ledger upon deletion.
+                </p>
+              )}
             </div>
 
             <div className="space-y-3">
@@ -482,7 +491,7 @@ export function DeleteAccountModal({ isOpen, onClose }: DeleteAccountModalProps)
               {errorMessage || 'The transaction was rejected by the network.'}
             </div>
             <div className="p-3 bg-muted rounded-lg text-xs text-muted-foreground">
-              Because <code>fail_hard</code> was used, the 0.2 XRP fee was NOT burned — the transaction was not included in a ledger.
+              The transaction was submitted with <code>fail_hard</code>, which greatly reduces — but does not guarantee — that the 0.2 XRP fee was not burned. Check your balance on the XRP Ledger to confirm.
             </div>
             <div className="flex gap-3">
               <Button variant="outline" className="flex-1" onClick={handleClose}>Close</Button>

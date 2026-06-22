@@ -719,14 +719,27 @@ class XRPLClient {
       throw new Error(`Client not initialized for network: ${network}`);
     }
 
+    const allObjects: any[] = [];
+    let marker: unknown = undefined;
+
     try {
-      const response = await state.connector.request({
-        command: 'account_objects',
-        account: address,
-        ledger_index: 'validated',
-        limit: 400
-      });
-      return response.result;
+      do {
+        const request: any = {
+          command: 'account_objects',
+          account: address,
+          ledger_index: 'validated',
+          limit: 400,
+        };
+        if (marker !== undefined) {
+          request.marker = marker;
+        }
+        const response = await state.connector.request(request);
+        const result = response.result;
+        allObjects.push(...(result.account_objects ?? []));
+        marker = result.marker;
+      } while (marker !== undefined);
+
+      return { account_objects: allObjects, account: address };
     } catch (error: any) {
       if (error.data?.error === 'actNotFound' || error.error === 'actNotFound') {
         return { account_objects: [], account: address };
