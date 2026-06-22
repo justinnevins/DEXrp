@@ -712,7 +712,30 @@ class XRPLClient {
     }
   }
 
-  async submitTransaction(txBlob: string, network: XRPLNetwork): Promise<{
+  async getAccountObjects(address: string, network: XRPLNetwork): Promise<{ account_objects: any[]; account: string }> {
+    await this.connect(network);
+    const state = this.clients.get(network);
+    if (!state) {
+      throw new Error(`Client not initialized for network: ${network}`);
+    }
+
+    try {
+      const response = await state.connector.request({
+        command: 'account_objects',
+        account: address,
+        ledger_index: 'validated',
+        limit: 400
+      });
+      return response.result;
+    } catch (error: any) {
+      if (error.data?.error === 'actNotFound' || error.error === 'actNotFound') {
+        return { account_objects: [], account: address };
+      }
+      throw error;
+    }
+  }
+
+  async submitTransaction(txBlob: string, network: XRPLNetwork, failHard = false): Promise<{
     success: boolean;
     hash?: string;
     engineResult: string;
@@ -725,10 +748,14 @@ class XRPLClient {
     }
     
     try {
-      const response = await state.connector.request({
+      const requestParams: any = {
         command: 'submit',
         tx_blob: txBlob
-      });
+      };
+      if (failHard) {
+        requestParams.fail_hard = true;
+      }
+      const response = await state.connector.request(requestParams);
       
       const result = response.result;
       

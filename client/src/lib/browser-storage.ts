@@ -338,6 +338,29 @@ class BrowserStorage {
     return trustlines[index];
   }
 
+  // Deleted-on-XRPL wallet tracking (separate from wallet schema)
+  private readonly DELETED_ON_XRPL_KEY = 'xrpl_deleted_on_xrpl_wallets';
+
+  getDeletedOnXrplWalletIds(): Set<number> {
+    const stored = localStorage.getItem(this.DELETED_ON_XRPL_KEY);
+    if (!stored) return new Set();
+    try {
+      return new Set(JSON.parse(stored) as number[]);
+    } catch {
+      return new Set();
+    }
+  }
+
+  markWalletDeletedOnXrpl(walletId: number): void {
+    const ids = this.getDeletedOnXrplWalletIds();
+    ids.add(walletId);
+    localStorage.setItem(this.DELETED_ON_XRPL_KEY, JSON.stringify([...ids]));
+  }
+
+  isWalletDeletedOnXrpl(walletId: number): boolean {
+    return this.getDeletedOnXrplWalletIds().has(walletId);
+  }
+
   // Clear all data
   clearAllData(): void {
     Object.values(this.STORAGE_KEYS).forEach(key => {

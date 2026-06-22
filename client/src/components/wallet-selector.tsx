@@ -1,4 +1,4 @@
-import { Check, ChevronDown, Plus, Lock } from 'lucide-react';
+import { Check, ChevronDown, Plus, Lock, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,6 +12,7 @@ import { useWallet } from '@/hooks/use-wallet';
 import { truncateAddress } from '@/lib/format-address';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/cn';
+import { browserStorage } from '@/lib/browser-storage';
 import type { Wallet } from '@shared/schema';
 
 interface WalletSelectorProps {
@@ -84,7 +85,7 @@ export function WalletSelector({ onAddAccount }: WalletSelectorProps) {
                 data-testid={`wallet-option-${wallet.id}`}
               >
                 <div className="flex flex-col flex-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     {!walletActive && <Lock className="w-3 h-3 text-muted-foreground" />}
                     <span className={cn("font-medium", !walletActive && "text-muted-foreground")}>
                       {getWalletName(wallet, index)}
@@ -92,6 +93,12 @@ export function WalletSelector({ onAddAccount }: WalletSelectorProps) {
                     {!walletActive && (
                       <span className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
                         Inactive
+                      </span>
+                    )}
+                    {browserStorage.isWalletDeletedOnXrpl(wallet.id) && (
+                      <span className="text-xs px-1.5 py-0.5 rounded bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center gap-1">
+                        <Trash2 className="w-2.5 h-2.5" />
+                        Deleted
                       </span>
                     )}
                     <span className={`text-xs px-1.5 py-0.5 rounded ${
